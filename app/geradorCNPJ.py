@@ -180,7 +180,11 @@ else:
         if bool(insere2(_cnpj)):
             if bool(consulta(_cnpj)):
                 url = "https://www.receitaws.com.br/v1/cnpj/" + str(_cnpj)
-                response = urllib.urlopen(url)
+                try:
+                    response = urllib.urlopen(url)
+                except:
+                    print('Sem conexao!')
+                    pass
                 print(str(total()[1]) + ' - ' + url)
                 lista = []
                 try:
@@ -194,8 +198,8 @@ else:
                     lista.append(teste.get("capital_social"))
                     #print('c')
                     lista.append(teste.get("ultima_atualizacao"))
-                    #atividade_p = teste.get("atividade_principal")
-                    atividade_p = "text"
+                    atividade_p = teste.get("atividade_principal")[0]['code']
+                    atividade_p = atividade_p
                     #print('d')
                     lista.append(atividade_p)
                     #print('e')
@@ -208,8 +212,8 @@ else:
                     lista.append(teste.get("email"))
                     #print('i')
                     lista.append(teste.get("situacao"))
-                    #atividade_s = teste.get("atividades_secundarias")
-                    atividade_s = "text"
+                    atividade_s = teste.get("atividades_secundarias")[0]['code']
+                    atividade_s = atividade_s
                     #print('j')
                     lista.append(atividade_s)
                     #print('k')
