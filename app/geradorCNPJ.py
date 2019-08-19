@@ -7,6 +7,19 @@ import random
 import urllib, json, time
 import pymysql.cursors
 
+def cpf(self, pontuacao = False):
+    cpf = [random.randint(0, 9) for x in range(9)]
+
+    for _ in range(2):
+        val = sum([(len(cpf) + 1 - i) * v for i, v in enumerate(cpf)]) % 11
+
+        cpf.append(11 - val if val > 1 else 0)
+
+    if pontuacao:
+        return '%s%s%s.%s%s%s.%s%s%s-%s%s' % tuple(cpf)
+    else:
+        return '%s%s%s%s%s%s%s%s%s%s%s' % tuple(cpf)
+
 def cnpj(self, punctuation = False):
     n = [random.randrange(10) for i in range(8)] + [0, 0, 0, 1]
     v = [2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6]
@@ -185,7 +198,8 @@ else:
                 except:
                     print('Sem conexao!')
                     pass
-                print(str(total()[1]) + ' - ' + url)
+                s = ((total()[0] * 100.00) / total()[1])
+                print('Total de : ' + str(total()[1]) + ' tentativas, ' + str(total()[0]) + ' válidos com {:.4f}%.'.format(s) + ' - ' + url)
                 lista = []
                 try:
                     teste = json.loads(response.read())
@@ -229,7 +243,7 @@ else:
                     lista.append(teste.get("logradouro"))
                     insere(lista)
                     s = ((total()[0] * 100.00) / total()[1])
-                    print('Insert de numero: ' + str(total()[0]) + ' total de {:.2f}%.'.format(s) + ' para ' + str(total()[1]) + ' tentativas!')
+                    print('Insert de numero: ' + str(total()[0]) + ' total de {:.4f}%.'.format(s) + ' para ' + str(total()[1]) + ' tentativas!')
                     valido('S', _cnpj)
                 except Exception as e:
                     print('Erro: ' + str(e))
