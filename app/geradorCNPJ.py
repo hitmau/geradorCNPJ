@@ -6,6 +6,7 @@
 import random
 import urllib, json, time
 import pymysql.cursors
+from datetime import datetime
 
 def cpf(self, pontuacao = False):
     cpf = [random.randint(0, 9) for x in range(9)]
@@ -80,7 +81,7 @@ def consulta(cnpj):
 
 def insere(string):
     global cursor, connection
-    #print('33')
+    now = datetime.now()
 
      #instancia um objeto cursor utilizando o método cursor
 
@@ -88,7 +89,7 @@ def insere(string):
     # construção da string SQL que insere um registro.
     #print('44')
     #print(string)
-    sql = "INSERT INTO dados (`json`, `nome_fantasia`, `capital_social`, `ultima_atualizacao`, `atividade_principal`, `tipo`, `nome`, `telefone`, `email`, `situacao`, `atividades_secundarias`, `uf`, `municipio`, `bairro`, `cep`, `numero`, `logradouro`) VALUES ('" + str(string[0]) + "', '" + str(string[1]) + "', '" + str(string[2]) + "', '" + str(string[3]) + "', '" + str(string[4]) + "', '" + str(string[5]) + "', '" + str(string[6]) + "', '" + str(string[7]) + "', '" + str(string[8]) + "', '" + str(string[9]) + "', '" + str(string[10]) + "', '" + str(string[11]) + "', '" + str(string[12]) + "', '" + str(string[13]) + "', '" + str(string[14]) + "', '" + str(string[15]) + "', '" + str(string[16]) + "');"
+    sql = "INSERT INTO dados (`json`, `nome_fantasia`, `capital_social`, `ultima_atualizacao`, `atividade_principal`, `tipo`, `nome`, `telefone`, `email`, `situacao`, `atividades_secundarias`, `uf`, `municipio`, `bairro`, `cep`, `numero`, `logradouro`, `data`) VALUES ('" + str(string[0]) + "', '" + str(string[1]) + "', '" + str(string[2]) + "', '" + str(string[3]) + "', '" + str(string[4]) + "', '" + str(string[5]) + "', '" + str(string[6]) + "', '" + str(string[7]) + "', '" + str(string[8]) + "', '" + str(string[9]) + "', '" + str(string[10]) + "', '" + str(string[11]) + "', '" + str(string[12]) + "', '" + str(string[13]) + "', '" + str(string[14]) + "', '" + str(string[15]) + "', '" + str(string[16]) + "', '" + str(now) + "');"
 
     try:
         # Execute o comando
@@ -108,7 +109,9 @@ def insere(string):
 
 def insere2(string):
     global cursor, connection
-    sql = "INSERT INTO nao_valido (cnpj) VALUES ('" + str(string) + "');"
+    now = datetime.now()
+    now
+    sql = "INSERT INTO nao_valido (cnpj, data) VALUES ('" + str(string) + "', '" + str(now) + "');"
     try:
         #print(sql)
         if bool(consulta2(string)):
@@ -117,7 +120,7 @@ def insere2(string):
             print('Novo cnpj')
             return True
         else:
-            print('Gerador ja gerou este CNPJ!')
+            #print('Gerador ja gerou este CNPJ!')
             return False
     except Exception as e:
         print("Erro na inserção de dados! insert2: " + str(e))
